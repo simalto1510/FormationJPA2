@@ -1,4 +1,4 @@
-package com.m2i.formation.meida.entities;
+package com.m2i.formation.media.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
@@ -27,16 +27,19 @@ public class Media implements Serializable, IEntity {
 	//données. NbTracs peut etre = à null.
 	private Integer id_Publisher;
 
+	@Column(length=25)
 	private String langue;
 
 	private Integer nbPages;
 
 	private Integer nbTracks;
+	
 
 	private Integer numISBN;
 
 	private float price;
 
+	@Column(nullable=false, length=25)
 	private String title;
 
 	public Media() {

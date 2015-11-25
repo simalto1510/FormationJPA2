@@ -1,4 +1,4 @@
-package com.m2i.formation.meida.entities;
+package com.m2i.formation.media.entities;
 
 public interface IEntity {
 	
