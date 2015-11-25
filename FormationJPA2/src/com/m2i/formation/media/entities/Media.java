@@ -3,6 +3,7 @@ package com.m2i.formation.media.entities;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -23,24 +24,34 @@ public class Media implements Serializable, IEntity {
 	@Temporal(TemporalType.DATE)
 	private Date dateParution;
 
-	//Integer à la place de int à cause du null de la base des
-	//données. NbTracs peut etre = à null.
-	private Integer id_Publisher;
-
-	@Column(length=25)
 	private String langue;
 
 	private Integer nbPages;
 
 	private Integer nbTracks;
-	
 
 	private Integer numISBN;
 
 	private float price;
 
-	@Column(nullable=false, length=25)
 	private String title;
+
+	//bi-directional many-to-many association to Author
+	@ManyToMany(mappedBy="medias")
+	private List<Author> authors;
+
+	//bi-directional many-to-many association to Card
+	@ManyToMany(mappedBy="medias")
+	private List<Card> cards;
+
+	//bi-directional many-to-one association to Publisher
+	@ManyToOne
+	@JoinColumn(name="id_Publisher")
+	private Publisher publisher;
+
+	//bi-directional many-to-one association to Page
+	@OneToMany(mappedBy="media")
+	private List<Page> pages;
 
 	public Media() {
 	}
@@ -67,14 +78,6 @@ public class Media implements Serializable, IEntity {
 
 	public void setDateParution(Date dateParution) {
 		this.dateParution = dateParution;
-	}
-
-	public int getId_Publisher() {
-		return this.id_Publisher;
-	}
-
-	public void setId_Publisher(int id_Publisher) {
-		this.id_Publisher = id_Publisher;
 	}
 
 	public String getLangue() {
@@ -123,6 +126,52 @@ public class Media implements Serializable, IEntity {
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+	public List<Author> getAuthors() {
+		return this.authors;
+	}
+
+	public void setAuthors(List<Author> authors) {
+		this.authors = authors;
+	}
+
+	public List<Card> getCards() {
+		return this.cards;
+	}
+
+	public void setCards(List<Card> cards) {
+		this.cards = cards;
+	}
+
+	public Publisher getPublisher() {
+		return this.publisher;
+	}
+
+	public void setPublisher(Publisher publisher) {
+		this.publisher = publisher;
+	}
+
+	public List<Page> getPages() {
+		return this.pages;
+	}
+
+	public void setPages(List<Page> pages) {
+		this.pages = pages;
+	}
+
+	public Page addPage(Page page) {
+		getPages().add(page);
+		page.setMedia(this);
+
+		return page;
+	}
+
+	public Page removePage(Page page) {
+		getPages().remove(page);
+		page.setMedia(null);
+
+		return page;
 	}
 
 }

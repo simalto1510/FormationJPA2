@@ -1,12 +1,7 @@
 package com.m2i.formation.media.repositories;
 
-
-
 import java.util.List;
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
-import javax.persistence.PersistenceContext;
+import javax.persistence.*;
 
 //import org.jboss.jandex.ParameterizedType;
 //import org.hibernate.usertype.ParameterizedType;
@@ -23,6 +18,9 @@ public abstract class AbstractRepository<T extends IEntity> implements IReposito
 	
 	@SuppressWarnings("unchecked")
 	public AbstractRepository() {
+		//Getclass renvoie Media Repositpory
+		//getGenericsuperclass renvoie AbstratRepository de T
+		//GetActualsParameters renvoie tous les generics
 		ParameterizedType genericSuperclass = (ParameterizedType)getClass().getGenericSuperclass();
 		this.entityClass = (Class<T>)genericSuperclass.getActualTypeArguments()[0];
 	}
@@ -51,29 +49,29 @@ public abstract class AbstractRepository<T extends IEntity> implements IReposito
 	
 	@Override
 	public T save(T entity) {
-		entityManager.persist(entity);
+		getEntityManager().persist(entity);
 		return entity;
 	}
 
 	@Override
 	public T update(T entity) {
-		return entityManager.merge(entity);
+		return getEntityManager().merge(entity);
 	}
 	
 	@Override
 	public void remove(T entity) {
-		entityManager.remove(entityManager.merge(entity));	
+		getEntityManager().remove(getEntityManager().merge(entity));	
 	}
 	
 	@Override
 	public T getById(int id) {
-		return entityManager.find(entityClass, id);
+		return getEntityManager().find(entityClass, id);
 	}
 	
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<T> getAll() {
-		return entityManager.createQuery("select e from " + entityClass.getSimpleName() +" e").getResultList();
+		return getEntityManager().createQuery("select e from " + entityClass.getSimpleName() +" e").getResultList();
 	}
 	
 	
@@ -94,10 +92,15 @@ public abstract class AbstractRepository<T extends IEntity> implements IReposito
 
 	@Override
 	public List<T> getByWhere(String where) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 	
+	
+	@SuppressWarnings("unchecked")
+	protected List<T> getByJPQL(String jpql){
+		return getEntityManager().createQuery(jpql).getResultList();
+	}
 	
 	
 }

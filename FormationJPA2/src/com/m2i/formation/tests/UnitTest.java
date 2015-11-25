@@ -6,9 +6,12 @@ import java.util.*;
 
 import javax.persistence.*;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import com.m2i.formation.media.entities.Media;
+import com.m2i.formation.media.repositories.AbstractRepository;
+import com.m2i.formation.media.repositories.Media2Repository;
 import com.m2i.formation.media.repositories.SingletonEMF;
 
 public class UnitTest {
@@ -41,7 +44,7 @@ public class UnitTest {
 		assertEquals(nameExpected,m.getTitle());
 		System.out.println(m.getTitle());
 		
-	}*/
+	}
 	@Test
 	public void addMediaTest() {
 		EntityManagerFactory emf = SingletonEMF.getInstance();
@@ -54,7 +57,7 @@ public class UnitTest {
 								  //à compilation du test
 		
 		//IL FAUT CREER UNE METHODE TEST POUR CHAQUE QUESTION
-		/*
+		
 		//1.3.2.Ouvrir et definir la transaction
 		EntityTransaction tx = em.getTransaction();
 		
@@ -105,8 +108,62 @@ public class UnitTest {
 		tx.begin();
 		em.remove(m);
 		em.remove(m1);
-		tx.commit(); */
+		tx.commit(); 
 		
 	}
+	
+	@Test
+	public void getAllTest() {
+		
+		EntityManagerFactory emf = SingletonEMF.getInstance();
+		assertNotNull(emf);
+		
+		//On crée Le Media2repository
+		//Puis on lui passe un enityManager
+		Media2Repository m2R = new  Media2Repository();
+		m2R.setEntityManager(emf.createEntityManager());
+		
+		List<Media> l = m2R.getAll();
+		
+		assertEquals(6, l.size());
+		
+	}
+	
+	@Test
+	public void getByIdTest() {
+		
+		EntityManagerFactory emf = SingletonEMF.getInstance();
+		assertNotNull(emf);
+		
+		//On crée Le Media2repository
+		//Puis on lui passe un enityManager
+		Media2Repository m2R = new  Media2Repository();
+		m2R.setEntityManager(emf.createEntityManager());
+		
+		Media m = m2R.getById(3);
+		String nameExpected = "Les 10 petits nègres";
+		assertEquals(nameExpected, m.getTitle());
+		
+	}
+	*/
+	@Test
+	public void getByPriceTest() {
+		
+		EntityManagerFactory emf = SingletonEMF.getInstance();
+		assertNotNull(emf);
+		
+		//On crée Le Media2repository
+		//Puis on lui passe un enityManager
+		Media2Repository m2R = new  Media2Repository();
+		m2R.setEntityManager(emf.createEntityManager());
+		
+		List<Media> l = m2R.getByPrice(8);
+		long priceExpected = 4;
+		
+		assertEquals(priceExpected,l.size());
+		
+		
+	}
+	
 
 }
