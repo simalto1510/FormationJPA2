@@ -6,17 +6,14 @@ import java.util.*;
 
 import javax.persistence.*;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.*;
 
 import com.m2i.formation.media.entities.Media;
-import com.m2i.formation.media.repositories.AbstractRepository;
-import com.m2i.formation.media.repositories.Media2Repository;
-import com.m2i.formation.media.repositories.SingletonEMF;
+import com.m2i.formation.media.repositories.*;
 
 public class UnitTest {
 
-/*	@Test
+	@Test
 	public void entityManagerTest() {
 		//This test is too slow
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("FormationJPA2");
@@ -45,6 +42,7 @@ public class UnitTest {
 		System.out.println(m.getTitle());
 		
 	}
+	@SuppressWarnings("rawtypes")
 	@Test
 	public void addMediaTest() {
 		EntityManagerFactory emf = SingletonEMF.getInstance();
@@ -68,7 +66,7 @@ public class UnitTest {
 		//1.3.1.definition medi à inserer
 		Media m = new Media();
 		m.setCategory(1);
-		m.setId_Publisher(2);
+		//m.setPublisher(2);
 		m.setLangue("francais");
 		m.setNbPages(200);
 		m.setNumISBN(112);
@@ -145,7 +143,7 @@ public class UnitTest {
 		assertEquals(nameExpected, m.getTitle());
 		
 	}
-	*/
+	
 	@Test
 	public void getByPriceTest() {
 		
@@ -165,5 +163,7 @@ public class UnitTest {
 		
 	}
 	
+	
+
 
 }
